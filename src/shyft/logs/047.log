@@ -1,0 +1,136 @@
+# SHIFT #047
+
+
+## ACHILLES: JSON (Z-15081)
+
+----
+
+1. ### Prompt ID: 1976
+
+
+#### Prompt
+
+
+As a visual search engine, your task is to analyze the product image and identify the following attributes based on the given options:
+
+{"closure style": ["lace-up", "stretching knit", "zip", "lacing", "buckle", "bungee laces", "hook and loop", "boot laced", "hook loop", "double buckle", "laceless"], "gender": ["male", "men's / women's", "female"], "athletic style": ["skateboarding", "racquetball", "runnings", "running", "long jump", "hunting", "disc golf", "lacrosse", "marathon", "bmx", "tai chi", "kayak", "climbing"], "country style": ["korean", "nigerian traditional", "american", "nepalese", "japanese", "indian", "british", "traditional indian", "mexican", "russian", "liberian", "pakistani"]}
+
+Output your findings in JSON format, utilizing the provided answer choices. If an attribute is not present, use null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"closure style": ["lace-up"], "gender": ["female"], "athletic style": ["running"], "country style": ["american"]}
+
+{"closure style": ["lace-up"], "gender": ["female"], "athletic style": ["running"], "country style": ["null"]}
+
+> #### Annotation
+
+
+> The product image appears to picture a pair of Brooks Adrenaline GTS 22 running shoes. Here, Response B is superior, because, in the alternative, the model characterizes the shoes as being of an American style, but there is nothing about their style that reads as particularly American-appearing. (Importantly, an American company, such as Brooks Running, does not necessarily manufacture their products to appeal specifically to Americans’ sensibilities. The same goes for any company based in any country.)
+
+----
+
+2. ### Prompt ID: 2831
+
+
+#### Prompt
+
+
+As part of an automated inventory management system, analyze the product image and determine the following attributes based on the provided options:
+
+{"shape": ["spiral", "conical", "cylindrical"], "department": ["unisex", "men's", "women's"], "color": ["green", "pink", "white", "beige", "red", "purple", "yellow", "brown", "blue", "orange", "black", "gray"], "skin type": ["all skin types", "for dry skin", "for combination skin", "for oily skin"], "form": ["spray", "oil", "solid", "roll-on"], "benefit": ["face whitening", "anti-gravity", "bruise", "scar treatment", "pain relief", "cellulite reduction", "melanin reduction", "healing", "deep hydration", "skin elasticity"]}
+
+Output the results in JSON format, utilizing the available answer choices. If an attribute is not identifiable, assign null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"shape": ["conical"], "department": ["women's"], "color": ["black", "white"], "skin type": ["null"], "form": ["spray"], "benefit": ["null"]}
+
+{"shape": ["null"], "department": ["women's"], "color": ["null"], "skin type": ["null"], "form": ["spray"], "benefit": ["null"]}
+
+> #### Annotation
+
+
+> The user-provided product image dpicts Givenchy’s “Ange ou Démon,” an eau de parfum. In fact, the image in question is included in Givenchy’s own listing of the the perfume on their official website, allowing me accurately to assess the model’s responses.
+
+> In Response B, the model appears to have approached the task with too conservative an interpretation of the JSON dictionary’s key-value pair options. Specifically, in Response B, the model indicates a null value for the “shape” key, where it should have indicated that the product is characterized, instead, by a conical shape. Moreover, in Response B, the model indicates a null value for the “color” key. This is an inaccurate evaluation because, as is apparent in the product image, the perfume bottle may reasonably be described as being of a black, gray, or white color. Thus, Response A is superior.  
+
+----
+
+**NOTE: EXPIRED BEFORE SUBMISSION**
+----
+
+3. ### Prompt ID: 950
+
+
+#### Prompt
+
+
+To improve product recommendations, analyze the image and identify the following attributes with their possible values:
+
+{"frame material": ["eco friendly", "crystal", "faux wood", "plastic", "bamboo", "rhinestone frames", "flex frame", "metal", "carbon fiber", "encrusted", "rubber"], "creative work theme": ["spongebob", "rudolph", "toy story", "nutcracker", "monsters inc", "slytherin", "hocus pocus", "descendants", "maleficent", "dr seuss", "shangri la", "flintstone", "miraculous", "michael myers", "beetlejuice", "supernatural", "venom", "batman", "frozen"], "celestial body theme": ["half moon", "star", "moon phase", "moon", "crescent moon"], "display type": ["analog", "digital"]}
+
+Generate a JSON output with the provided answer choices. If an attribute is missing, assign null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"frame material": ["plastic"], "creative work theme": ["frozen"], "celestial body theme": ["null"], "display type": ["null"]}
+
+{"frame material": ["null"], "creative work theme": ["null"], "celestial body theme": ["null"], "display type": ["null"]}
+
+> #### Annotation
+
+
+> Given the user-provided product image, which appears to have been extracted directly from the listing on the manufacturer’s web store, along with the JSON snippet to which the model’s response options have been restricted, Response B represents the superior performance.
+
+> The prompt is somewhat adversarial, because it directs the model to evaluate the product image against a JSON dictionary that is largely inapplicable to cosmetics. (Not even the “frame material” key allows, strictly speaking, for Response A’s corresponding “plastic” value, since skincare products do not possess frames — unless we take “frame” to mean “container,” which seems like a stretch to me.
+
+> Since the three other keys — “creative work theme”, “celestial body theme”, and “display type” — are obviously also unrelated to the product and product image, we find that, in this scenario, the model should indicate null values for the entire JSON dictionary. Response B reflects precisely such an outcome.
+
+----
+
+4. #### Prompt ID: 1729
+
+
+#### Prompt
+
+
+As a visual search engine, your task is to analyze the product image and identify the following attributes based on the given options:
+
+{"special occasion": ["thanksgiving", "halloween", "christmas", "patriotic", "hannukah"], "set / single": ["single", "set"], "mobility": ["2 wheel / rolling", "spinner"], "material": ["steel", "canvas", "plastic", "aluminum alloy", "real leather", "croc embossed", "pvc", "carbon", "denim", "curv", "fiber", "timber", "snakeskin", "polycarbonate"]}
+
+Output your findings in JSON format, utilizing the provided answer choices. If an attribute is not present, use null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"special occasion": ["null"], "set / single": ["single"], "mobility": ["spinner"], "material": ["polycarbonate"]}
+
+{"special occasion": ["null"], "set / single": ["set"], "mobility": ["spinner"], "material": ["polycarbonate", "plastic"]}
+
+> #### Annotation
+
+
+> The user-provided product image depicts the larger suitcase in Samsonite’s two-piece “Valor” luggage set. A review of the available product information suggests that this particular suitcase is not available for individual purchase, rendering Response A’s indication of “single” for the “set / single” key incorrect. Moreover, the manufacturer’s description of the “Valor” luggage set reveals that the suitcase pictured in the provided product image primarily comprises two materials: polycarbonate and acrylonitrile butadiene styrene (ABS), which are distinct (albeit functionally similar) thermoplastic polymers. Correctly evaluated, the “material” key should be set to “polycarbonate, plastic”, as in Response B.
+
+> Bearing all of the above in mind, it is clear that Response B is overall superior to Response A.
+

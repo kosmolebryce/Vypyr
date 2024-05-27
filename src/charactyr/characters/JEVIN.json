@@ -1,0 +1,30 @@
+{
+    "date": "Friday, May 10 2024 15:40:22",
+    "name": "JEVIN",
+    "age": 24,
+    "species": "HUMAN",
+    "ability": "COOKING",
+    "level": 20,
+    "type": "BENEVOLENT",
+    "id": 5406416063,
+    "universe": "REALITY",
+    "xp": 0.0,
+    "health": 100,
+    "energy": 100,
+    "diseases": [],
+    "conversations": {
+        "sent": [],
+        "received": [
+            {
+                "from": "CALEB",
+                "to": "JEVIN",
+                "date": "2024-05-11 00:03:53",
+                "message": "I love you!"
+            }
+        ]
+    },
+    "inventory": {
+        "Lenovo Laptop": "A sleek, black laptop designed with gamers in mind. Jevin uses it prolifically to play \"The Sims 4\".",
+        "Soul": "JEVIN's essence."
+    }
+}

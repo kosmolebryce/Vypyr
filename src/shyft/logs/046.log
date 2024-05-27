@@ -1,0 +1,127 @@
+# SHIFT #046
+
+
+## ACHILLES: JSON (Z-15081)
+
+----
+
+1. ### Prompt ID: 42
+
+
+#### Prompt
+
+
+Acting as a quality control specialist, examine the product image and determine the following attributes based on the given options:
+
+{"neckline": ["henley", "cowl neck", "high neck", "strapless", "halter", "hoodie", "round neck", "sweetheart", "collared", "square neck", "turtleneck", "v-neck", "boat neck"], "body part use": ["head", "neck"], "shape": ["oval", "square", "round"], "fit": ["slim", "relaxed", "athletic", "oversize"], "fastening style": ["crew", "strappy", "front button", "doesn't open", "side button", "ruffle sleeve", "button up", "cross back", "spaghetti strap", "quarter button"], "sport team": ["rhodes college", "smu", "tottenham hotspur", "brooklyn dodgers", "flyers", "san diego chargers", "university of miami", "dan marino", "lsu", "vegas golden knights jersey", "manchester united", "lsu tigers", "patriots", "edmonton oilers", "la kings", "inter miami", "chelsea f.c."]}
+
+Output your findings in JSON format, utilizing the provided answer choices. If an attribute is not visible or relevant, assign null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"neckline": ["round neck"], "body part use": ["neck"], "shape": ["null"], "fit": ["relaxed"], "fastening style": ["crew"], "sport team": ["manchester united"]}
+
+{"neckline": ["round neck"], "body part use": ["null"], "shape": ["null"], "fit": ["athletic"], "fastening style": ["crew"], "sport team": ["manchester united"]}
+
+> #### Annotation
+
+
+> Here, both models have responded in proper JSON syntax. In Response A, however, the model seems to have better understand the image’s relevant visual cues, as evidenced by Response B’s inclusion of two “null” values. Response A, for its part, includes only one.
+
+----
+
+2. ### Prompt ID: 3369
+
+
+#### Prompt
+
+
+Analyze the product image to identify key attributes. For each key attribute mentioned in the json below identify the correct category for each attribute from the list of options provided:
+
+{"mobile broadband generation": ["5g", "3g", "4g"], "lens quantity": ["dual lens", "quad lens", "triple lens"], "form": ["brush", "cloth", "swab", "compressed air", "wipes", "machine", "solution", "bulb air blower"], "battery technology": ["nimh", "nicad", "li-ion"], "display type": ["lcd", "led", "oled"], "pattern": ["stripe", "cow print", "american flag"], "placement": ["cigarette lighter", "cup holder", "cd player", "vent", "sun visor", "handlebar", "dashboard", "windshield", "rearview mirror"], "sport team": ["san francisco 49ers", "denver nuggets", "st. louis cardinals", "lakers", "seahawks", "san francisco giants", "new england patriots", "dallas cowboys", "miami dolphins", "redsox", "montreal canadiens", "chicago bulls", "gamecocks", "eagles", "raiders", "atlanta braves", "georgia bulldogs"]}
+
+Create a JSON output and use null if an attribute cannot be determined.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"mobile broadband generation": ["5g"], "lens quantity": ["triple lens"], "form": ["null"], "battery technology": ["null"], "display type": ["oled"], "pattern": ["null"], "placement": ["null"], "sport team": ["null"]}
+
+{"mobile broadband generation": ["4g"], "lens quantity": ["quad lens"], "form": ["null"], "battery technology": ["null"], "display type": ["oled"], "pattern": ["null"], "placement": ["null"], "sport team": ["null"]}
+
+> #### Annotation
+
+
+> The device in the picture appears to be a HUAWEI Nova 9. According to the manufacturer’s specifications for this model, this smartphone is equipped with 4G and a quad-lens rear camera system. As such, Response A mostly missed the mark, excepting its concurrence with Response B regarding the device’s display type. All the other key:value pairs provided in the prompt are irrelevant to the image provided, and the models were correct to report corresponding null values in each case.
+
+----
+
+3. ### Prompt ID: 2983
+
+
+#### Prompt
+
+
+You are a customer service chatbot assisting customers with product information. Analyze the provided image and identify the following attributes based on the given options:
+
+{"body material": ["pvc", "polycarbonate", "polypropylene", "stainless steel", "rubber", "aluminum"], "smart functions": ["motion activated", "display screen", "facial recognition", "virtual assistant", "voice control", "voice clarifying", "touchscreen", "camera"], "pattern": ["lion", "sweet surroundings", "princess", "monkey business", "rainbow", "cloud", "froggy", "happy safari", "twinkle tails", "floral", "mini mouse", "geometric", "dot", "windmill", "navy dots", "polka dot", "zig zag", "solid", "crosshatch"], "special purpose": ["gramophone", "aromatherapy", "studio monitor", "bass blockers", "ultra compact", "dual voice coil", "light up", "2 microphones", "live stage", "15 inch subwoofer", "stereo", "wireless party chain", "double bass", "woofer", "dolby surround sound", "digital amplifier", "dual woofer", "soundbar"], "use": ["shower head", "shower", "cb radio", "dj", "computer", "vinyl", "conferencing", "handlebar mount", "radio", "karaoke", "desktop", "intercom", "mp3 player", "ipad"], "form": ["compressed air", "swab", "cloth", "machine", "brush", "wipes", "solution", "bulb air blower"]}
+
+Please provide your response in JSON format, utilizing the listed answer choices. If an attribute is not applicable, use null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"body material": ["polypropylene", "aluminum"], "smart functions": ["voice control"], "pattern": ["solid"], "special purpose": ["wireless party chain", "digital amplifier", "dual woofer", "woofer"], "use": ["mp3 player"], "form": ["machine"]}
+
+{"body material": ["null"], "smart functions": ["voice control"], "pattern": ["null"], "special purpose": ["stereo"], "use": ["radio"], "form": ["null"]}
+
+> #### Annotation
+
+
+> The device pictured is Yamaha Audio’s MusicCast 50 bluetooth speaker. Here, Response A appears to have made several assumptions: For example, I was unable to locate manufacturer documentation to support its claims that the device is made of polypropylene and aluminum, nor that it functions as a “wireless party chain.” On the other hand, Response B, more conservative in its assessment of the product image, indicated null values for the “body material,” “pattern,” and “form” keys, which seems like the more appropriate approach. Still, Response A’s characterization of the device as having a solid pattern and as bearing the form of a machine is quite apt.
+
+----
+
+4. #### Prompt ID: 3411
+
+
+#### Prompt
+
+
+As a visual search engine, your task is to analyze the product image and identify the following attributes based on the given options:
+
+{"generic plant theme": ["super bloom", "flower"], "material": ["agateware", "amberina glass", "porcelain", "sea glass", "blown glass", "bohemian crystal", "tin", "enamel", "agate", "alabaster", "cement", "glassware", "uranium glass", "peking glass", "bamboo"], "general shape": ["rectangle", "ocean wave", "wide mouth", "circle", "gourd", "sphere", "shell", "glass bulb", "test tube", "triangle", "oblong", "seashell", "oval", "u shaped"], "placement": ["floor", "table"], "era style": ["ancient chinese", "baroque", "victorian", "colonial", "geometric period", "qing dynasty", "classical"], "metal material": ["sterling silver", "brass", "copper", "bronze", "silver", "hammered copper", "steel", "aluminum", "iron", "etched brass", "stainless steel"], "culture / ethnic group style": ["mayan", "native american", "aztec", "minoan", "hopi", "roman", "viking"], "country style": ["turkish", "french", "peruvian", "mexican", "russian", "spanish", "italian pottery", "italian", "burmese", "austrian", "antique chinese", "german", "irish", "american", "moroccan"], "frame material": ["crystal frame", "grasscloth", "marble", "mexican tin", "barn wood", "iron", "glass", "zinc", "slate", "velvet", "sea glass", "copper"], "color": ["rainbow", "polychrome", "gold", "cranberry"], "number of candles": ["three", "2 candles"], "body part shape": ["torso", "hand", "head", "penis", "butt", "heart"], "vase style": ["spike", "fat lava", "keyhole", "art nouveau", "monarch", "lekythos", "kurinuki", "sgraffito", "neck", "lattice", "chevron", "pockets", "kintsugi", "talavera", "pleated", "chinoiserie", "cantagalli", "prinknash pottery", "qianlong"]}
+
+Output your findings in JSON format, utilizing the provided answer choices. If an attribute is not present, use null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"generic plant theme": ["flower"], "material": ["porcelain", "enamel", "brass"], "general shape": ["oval"], "placement": ["table"], "era style": ["victorian"], "metal material": ["brass"], "culture / ethnic group style": ["roman"], "country style": ["french"], "frame material": ["null"], "color": ["gold", "polychrome"], "number of candles": ["null"], "body part shape": ["null"], "vase style": ["neck"]}
+
+{"generic plant theme": ["null"], "material": ["porcelain"], "general shape": ["oval"], "placement": ["table"], "era style": ["classical"], "metal material": ["bronze"], "culture / ethnic group style": ["roman"], "country style": ["french"], "frame material": ["null"], "color": ["gold"], "number of candles": ["null"], "body part shape": ["hand"], "vase style": ["neck", "lattice"]}
+
+> #### Annotation
+
+
+> Response A is superior to Response B because it more accurately reflects the attributes of the vases in the provided image. A cursory search revealed that these vases are, indeed, French, that they depict a supposedly Roman scene, and that they were furnished in the 19th century, home of the Victorian era.
+
+> Response B mostly delivered on the user’s request, but it failed correctly to identify the time period from which these pieces originate. Moreover, there is no visual indication of any “lattice”-like design elements, as the model posited in Response B.
+

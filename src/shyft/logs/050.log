@@ -1,0 +1,65 @@
+# SHIFT #050
+
+
+## ACHILLES: JSON (H-15141)
+
+----
+
+1. ### Prompt ID: 3247
+
+
+#### Prompt
+
+
+A customer is inquiring about specific product features. Analyze the image and confirm the presence of the following attributes in a clear JSON format:
+
+["department", "installation", "material", "design", "animal theme"]
+
+. If an attribute is not visible, indicate it as null.
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"department": "kitchen", "installation": null, "material": "porcelain", "design": "floral", "animal theme": "bird"}
+
+{"department": ["null"], "installation": ["null"], "material": ["ceramic"], "design": ["null"], "animal theme": ["bird"]}
+
+#### Annotation
+
+
+Response A has taken a more inferential approach than has Response B: The product image lacks explicit support for any of the parameters reflected in the user-provided JSON dictionary, so, in Response A, the model has elected to derive its response from visual context clues. Response B, by contrast, represents a more conservative approach to the task, attributing null values to all but two of the JSON keys. 
+
+Given, then, the user-provided context and product image, Response A is likely to be considered the superior performance.
+----
+
+2. ### Prompt ID: 3450
+
+
+#### Prompt
+
+
+Provide a list of all the following product attributes for the main product in the image, answer in JSON. For each attribute, if there is no answer, return null for that attribute.
+
+["interfaces", "recommeded use", "holiday theme", "activities tracked"]
+
+Output JSON:
+
+### Table
+
+
+**RESPONSE A**
+
+**RESPONSE B**
+
+{"interfaces": ["bluetooth", "ant+"], "recommeded use": ["multisport"], "holiday theme": ["null"], "activities tracked": ["cycling", "running", "swimming", "skiing", "golf", "hiking"]}
+
+{"interfaces": ["bluetooth interface"], "recommeded use": ["hiking"], "holiday theme": ["null"], "activities tracked": ["sleep", "activity speed", "distance", "steps", "calories burned", "heart rate"]}
+
+####  Annotation
+
+
+The user-provided product image appears to depict a Suunto 9 Peak smartwatch, which is available for purchase via the manufacturer’s online shop. Overall, Response A more comprehensively (and, thus, more faithfully) describes the scope of this product’s hardware and software features; however, Response B’s indicated values for the “activities tracked” key should be appended to those indicated for the same key in Response A. This way, the model can ensure that its response is sufficiently detailed.

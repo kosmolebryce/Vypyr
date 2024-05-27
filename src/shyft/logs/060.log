@@ -1,0 +1,42 @@
+SHIFT ID:		060
+MODEL ID:		Patroclus
+PROJ. ID:		Helpfulness
+══════════════════════════════════════════════════
+
+1. ) 	I lack expertise for this task: The prompt requires fluency in a non-English language.
+
+2. )	Target: "MAM can also be used to enforce compliance, but only within the scope of the managed applications."
+
+[Evaluation]
+	According to IT specialists at Ramsac, this claim is accurate.
+	(Source: https://www.ramsac.com/blog/what-is-mobile-application-management-streamlining-app-deployment-and-security/)
+
+2. )	Target: "However, here are some possible reasons:
+
+    They're envious: They might want what you have, so they copy you in an attempt to achieve it.
+    They're insecure: They might lack self-esteem and try to elevate themselves by copying someone they admire."
+
+[Evaluation]
+	While these claims represent ostensibly sound logic, the model has failed to support them with any citation. Since the query is so subjective, there is bound to be contradicting reputable evidence.
+
+3. )	Target: "When you talk to your mom:
+
+    Offer to pay for the piercing yourself. This will show your mom that you are serious about getting it and that you are willing to take responsibility for it."
+
+[Evaluation]
+	The target sentence contains a subjective claim that most would consider to be reasonable; therefore, it is accurate.
+
+4. )	Target: "However, the strength of a Servant varies depending on the individual."
+
+[Evaluation]
+	In the Fate video game series, since Servants can be of different classes, their Strength levels can vary, as well. 
+
+	(Source: https://fategrandorder.fandom.com/wiki/Servants)
+
+5. )	Target: "If you can provide more information about the scene, such as the characters involved, the setting, or the plot, I might be able to help you identify the movie."
+
+[Evaluation]
+	Here, the model's statement pertains to its own capabilities. In other words: "No checkable Claims are present in the target sentence."
+
+
+

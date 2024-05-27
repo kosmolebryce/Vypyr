@@ -1,0 +1,38 @@
+{
+    "date": "Tuesday, May 07 2024 14:55:18",
+    "name": "CALEB",
+    "age": 26,
+    "species": "HUMAN",
+    "ability": "CLAIRAUDIENCE",
+    "level": 22,
+    "type": "AMIBVALENT",
+    "id": 3579793205,
+    "universe": "REALITY",
+    "xp": 0.0,
+    "health": 85,
+    "energy": 60,
+    "diseases": [],
+    "conversations": {
+        "sent": [
+            {
+                "from": "CALEB",
+                "to": "JEVIN",
+                "date": "2024-05-11 00:03:53",
+                "message": "I love you!"
+            }
+        ],
+        "received": [
+            {
+                "from": "HAILEY",
+                "to": "CALEB",
+                "date": "2024-05-10 15:38:26",
+                "message": "want me to swoop ?"
+            }
+        ]
+    },
+    "inventory": {
+        "KORG TR88": "A stage performance keyboard, originally manufactured in 2007. It's a bit outdated, but it gets the job done.",
+        "iPhone 13 Pro Max": "A glass screen protector, cracked along its perimeter, obscures an otherwise pristine display.",
+        "Soul": "CALEB's essence."
+    }
+}

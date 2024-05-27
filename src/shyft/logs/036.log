@@ -1,0 +1,54 @@
+#	SHIFT #036
+##	ACILLES K-12859
+###	DESCRIPTION
+================================================= 1.) PROMPT #10774:	how many ratings does this item have?
+
+[RESPONSE A]
+The item has 2,060 ratings, as displayed directly beneath the star rating section on the Amazon product page. This section shows the total number of ratings for the product.
+
+[RESPOSNE B]
+The item has 2,060 ratings.
+
+[ANNOTATION]
+This is a good example of verbosity and how it can impact the overall quality of a response for better *or* worse, depending on the context.
+
+Here, the user has requested that the model identify the current number of ratings for product "CAP Barbell 150 LBS Dumbbell Set with Rack" on Amazon. In this case, because the query involves a statistic, verbosity is preferable to concision. By describing where in the UI the user can find the data in question themselves, the model better equips the user to self-actualize in the future.
+
+Verbosity becomes qualitatively detrimental when its effects are such that a given response would require of a user an unreasonable amount of time to read, comprehend, and/or execute.
+------------------------------------------------
+2.) PROMPT #4683:	how many buttons are in the picture? answer with one word only
+
+[RESPONSE A]
+One.
+
+[RESPONSE B]
+one
+
+[ANNOTATION]
+RESPONSE A is slightly preferable to RESPONSE B because of the capitalization of the 'o' in 'one,' in addition to the presence of a period.
+------------------------------------------------
+3.) PROMPT #26303:	Which row has the microphone? Which row has the red cap? Which column and row has the pink piggy bank?
+
+
+[RESPONSE A]
+Microphone
+
+The microphone is in the second row. Look for a classic handheld microphone with a spherical top and a long handle.
+
+Red Cap
+
+The red cap is in the fourth row. It's a type of headwear with a visor and a rounded crown.
+
+Pink Piggy Bank
+
+The pink piggy bank is in the fourth row, eighth column. Look for a bank shaped like a pig in the eighth column, and you will find it in the fourth row.
+
+[RESPONSE B]
+The microphone is in row 2.
+
+The red cap is in row 4.
+
+The piggy bank is in row 4, column 8.
+
+[ANNOTATION]
+Although the visual style of its text presentation is superior to that of the alternative, RESPONSE A suffers from redundancy, since we can assume that if the user were able to look for the specified visual elements, they would have no need to consult the AI.

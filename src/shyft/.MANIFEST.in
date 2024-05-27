@@ -1,0 +1,7 @@
+# manifest.in
+
+include README.md
+include LICENSE.md
+recursive-include docs *.txt *.md
+global-exclude *.pyc
+global-exclude *.log

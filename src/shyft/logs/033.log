@@ -1,0 +1,102 @@
+# SHIFT ID:		#033
+PROJECT ID:		B-12931
+EVALUATING:		Visual Acuity (Images)
+=================================================
+The responses in this project are to be evaluated along six dimensions: Overall, Writing Quality, Verbosity, Instruction Following, Truthfulness, and Harmlessness.
+
+-------------------------------------------------
+## DATA ANNOTATION
+
+### 1. )
+
+#### [PROMPT #234]
+There are three businesses showin in this picture. What are their names?
+
+[RESPONSE A]
+Based on the images, the three businesses shown are:
+	
+- The Belmont: This is visible on the sign above the leftmost storefront.
+
+- The Darling: This appears on the sign above the middle storefront, with "Cocktails" and "Raw Bar" flanking the main title.
+
+- [Unknown]: The rightmost storefront does not have a visible business name in the provided images.
+
+Therefore, we can identify two businesses with certainty: The Belmont and The Darling. We cannot identify the third business from the images.
+
+------------------------------------------------
+
+[RESPONSE B]	
+	- The Darling
+	- The Belmont
+	- Insomnia Cookies
+
+-------------------------------------------------
+[ANNOTATION]
+In RESPONSE B, the model has successfully identified the three establishments in the pictured in the prompt's accompanying photo. Indeed, the leftmost storefront belongs to Insomnia Cookies, as evinced by the iconic crescnet moon-themed signage hanging just above and in front of the main entrance. It is primarily for this reason that I have chosen RESPONSE A as the better response.
+
+On the other hand, the model demonstrates a greater ability to collaborate in RESPONSE A than it does in RESPONSE B, which the model ought to have better contextualized by incorporating (brief) introductory and conclusional statements.
+
+-------------------------------------------------
+
+### 2. )
+
+#### [PROMPT #4293]
+Briefly answer the following questions in one to two sentences based on the information in the image. Rewrite the question as part of the answer.
+
+1. What is the main idea presented in this image?
+2. What does it say above the flag?
+3. What does it say above the boy sitting on a see-saw?
+4. There is a list in the bottom left corner of the image. The list starts with crackers and ends with pickles. What are the other items in that list?
+5. Is there a date on this image? If so, what is the date of the image.
+
+#### [RESPONSE A]
+What is the main idea presented in this image? The main idea is that high-fructose corn syrup (HFCS) is an inexpensive sweetener used in many foods, but it comes at a high cost to your health.
+What does it say above the flag? Above the flag it says “On average Americans consume 35 pounds every year.”
+What does it say above the boy sitting on a see-saw? Above the boy sitting on a see-saw, it says "Reported side effects include heart disease, increased belly fat, elevated cholesterol, obesity, and insulin resistance."
+There is a list in the bottom left corner of the image. The list starts with crackers and ends with pickles. What are the other items in that list? The other items in the list are ice cream, cookies, soft drinks, and ketchup.
+Is there a date on this image? If so, what is the date of the image. There is no date visible on this image.
+
+#### [RESPONSE B]
+The main idea presented in this image is High Fructose Corn Syrup (HFCS) is found in everyday foods and is unhealthy.
+Above the flag it says, "On average, Americans consume 35 pounds every year."
+Above the boy sitting on a see-saw, it says, "Reported side-effects include heart disease, increased belly fat, elevated cholesterol, obesity, insulin resistance"
+The list in the bottom left corner of the image reads crackers, ice cream, cookies, soft drinks, ketchup, pickles
+No, there is no date on this image.
+
+
+#### [ANNOTATION]
+Here, RESPONSE B is superior to RESPONSE A.
+
+In [B], the model:
+	* demonstrates a better understanding of the 
+	  user requests;
+	* uses more natural-sounding language; and
+	* more directly addresses the user's five
+	  queries, allowing readers more readily to
+	  extract key information from the list.
+
+Conversely, in [A], the model:
+	* misinterprets the user's specification to 
+	  "[r]ewrite the question as part of the
+	  answer.
+		- We hear this a lot in academia. Growing
+		  up, we students were always taught that 			a restatement of the question 
+		  necessarily accompanies any well-formed
+		  answer to the academic problem at hand,
+		  lest we should otherwise pen an
+		  *incomplete* sentence. Usually, though,
+		  this simply meant referencing the same
+		  subject in our answers as the
+		  testwriters had referenced in their
+		  prompts. Here, though, the model seems
+		  to have taken the user request to mean
+		  that it should repeat the user's
+		  questions verbatim.
+	* uses language that seems unnatural and
+	  machine-like.
+	* detracts from the readability of its
+	  response by tending toward verbosity.
+
+=================================================
+
+		  

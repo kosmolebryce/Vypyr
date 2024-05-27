@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "vypyr"
+version = "0.0.1"
+description = ""
+authors = ["None"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+rdkit = "^2023.9.5"
+matplotlib = "^3.8.4"
+py2app = "^0.28.8"
+
+[tool.poetry.group.dev.dependencies]
+poetry = "^1.8.2"
+black = "^24.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.packages]]
+include = "src"

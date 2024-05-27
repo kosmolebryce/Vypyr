@@ -1,0 +1,29 @@
+# 	SHIFT #035
+## 	ACHILLES 
+###	K-12859
+=================================================
+[1] PROMPT #31478:
+		Make a list of the items in the
+		pocket.
+
+	RESPONSE [A]:
+		The pocket contains the following items:
+
+		* A yellow measuring tape.
+		  Two pairs of scissors: one with black 
+		  handles and one small and silver.
+		* Three spools of thread in pink, blue,
+		  and yellow.
+		* A dark blue button.
+
+	RESPONSE [B]:
+		The items in the pocket are:
+		
+		   * a tape measure
+		   * a pair of scissors
+		   * some thread
+		   * a button
+
+[ANNOTATION]:
+In RESPONSE A, the model misses the mark
+by identifying two pairs of scissors when, in fact, only one is present. Moreover, in this response, the model asserts that the denim pocket in the prompt's accompanying photograph contains three spools of thread, despite the fact that only two are pictured. These factual inaccuracies render RESPONSE A inferior to RESPONSE B. Still, RESPONSE B seems rather under-specific and could be improved by more detail.

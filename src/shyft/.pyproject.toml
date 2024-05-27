@@ -1,0 +1,24 @@
+
+[tool.poetry]
+name = "shyft"
+version = "0.0.3"
+description = "shyft Timetracker is a simple CLI utility designed to enable more efficient time-tracking for independent contractors."
+authors = ["Caleb Rice <calebwaynerice@outlook.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+click = "^8.1.7"
+poetry = "^1.8.2"
+requests = "^2.31.0"
+tk = ">=0.1.0"
+tcl = "*"
+pathlib = "*"
+
+[tool.poetry.scripts]
+shyft = "shyft.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

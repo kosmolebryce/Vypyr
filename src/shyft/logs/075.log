@@ -1,0 +1,92 @@
+# `075.log`
+
+```plaintext
+SHIFT ID:	075
+MODEL ID:	Antimony
+PROJ. ID:	Factuality Evaluations (ID: A-18772)
+```
+
+#### Prompt #1628
+
+## CONTEXT
+
+> ### Prompt
+
+> How can I put climate change to a measures of position
+
+----
+
+### Model Response
+
+> Climate change, by its nature, isn't easily captured by a single measure of position. It's a complex issue with various aspects affected. However, depending on the specific focus, you can utilize different measures of position to represent its severity or progress. Here are some options:
+
+> *Global Temperature Change:*
+
+* > *Mean Global Temperature:* This is the average temperature across the Earth's surface, often compared to a baseline period (e.g., pre-industrial era). A rising mean global temperature indicates ongoing climate change.
+
+> *Regional Temperature Change:*
+
+* > *Temperature Anomaly:* This measures the deviation of a specific region's average temperature from its historical average. Positive anomalies indicate warming, while negative anomalies indicate cooling.
+
+> *Sea Level Rise:*
+
+* > *Global Mean Sea Level:* This is the average height of the ocean surface relative to a specific reference point. Rising sea levels are a key indicator of climate change.
+
+> *Concentration of Greenhouse Gases:*
+
+* > *Atmospheric CO2 Concentration:* Carbon dioxide (CO2) is a major greenhouse gas. Measuring its atmospheric concentration provides a way to track the buildup of heat-trapping gases contributing to climate change.
+
+> *Other Measures:*
+
+* > *Ice Core Data:* Air bubbles trapped in ancient ice cores hold information about past atmospheric CO2 concentrations, providing historical context for current levels.
+* > *Extreme Weather Events:* The frequency and intensity of extreme weather events like heatwaves, floods, droughts, and wildfires can be used as indicators of climate change's impact.
+
+> *Choosing the Right Measure:*
+
+> The best measure of position for climate change depends on the specific aspect you're interested in.
+
+* > Studying global warming trends? Use global mean temperature or regional temperature anomalies.
+* > Analyzing sea level rise? Focus on global mean sea level changes.
+* > Interested in the driver of climate change? Track atmospheric CO2 concentration.
+
+> *Remember:*
+
+* > A single measure offers a limited view. Utilize multiple measures to gain a more comprehensive understanding of climate change's progress.
+* > Consider the limitations of each measure. For example, year-to-year temperature variations might be influenced by natural cycles, so long-term trends are more informative.
+
+> By employing these measures of position, you can effectively analyze and communicate various aspects of climate change.
+
+----
+
+### Span to Evaluate
+
+* > *Global Mean Sea Level:* This is the average height of the ocean surface relative to a specific reference point.
+
+----
+
+### Annotation
+
+#### Claims
+
+1. The average height of the ocean surface relative to a specific reference point is called the global mean sea level.
+	* > *Internal or external?*
+		* > External
+	* > *Supporting web resource(s)*
+		1. > “[Global Mean Sea Level](https://sealevel.nasa.gov/understanding-sea-level/key-indicators/global-mean-sea-level/).” NASA. Accessed [Sat, May 11](day://2024.05.11).
+			* > *Search query*: `global mean sea level`
+			* > *Supporting excerpt(s)*
+				* > “*What is global mean sea level?* This is the average height of the entire ocean surface.
+		1. > “[INCORPORATING SEA LEVEL CHANGE IN CIVIL WORKS PROGRAMS](https://www.publications.usace.army.mil/portals/76/publications/engineerregulations/er_1100-2-8162.pdf)” (2013). U.S. Army, /Corps of Engineers/. Accessed [Sat, May 11](day://2024.05.11).
+			* > *Search query*: `”global mean sea level is the average”`
+			* > *Supporting excerpt(s)*
+				* > “Thus, global sea level, also sometimes referred to as global mean sea level, is the average height of all the world’s oceans.”
+		1. > “[What is the definition of global mean sea level (GMSL) and its rate?](https://sealevel.colorado.edu/presentation/what-definition-global-mean-sea-level-gmsl-and-its-rate).” University of Colorado, /Sea Level Research Group/. Accessed [Sat, May 11](day://2024.05.11).
+			* > *Search query*: `global mean sea level reference point`
+			* > *Supporting excerpt(s)*
+				* > “The term ‘global mean sea level’ in the context of our research is defined as the area-weighted mean of all of the sea surface height anomalies measured by the altimeter in a single, 10-day satellite track repeat cycle.”
+	* > *Comments*
+		* > The a) span and b) excerpt from [3] may seem, at first brush, to be rather incongruous -—- but a more careful analysis reveals that, in fact, the latter simply characterizes a more specific “reference point” than does the former; it /is/, nonetheless, /a/ reference point. Thus, the excerpt concurs with the span.
+
+----
+
+
