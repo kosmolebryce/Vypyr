@@ -486,7 +486,7 @@ class ShyftGUI:
     def open_settings(self):
         settings_window = tk.Toplevel(self.master)
         settings_window.title("Settings")
-        settings_window.geometry("300x200")  # Set an appropriate size for the settings window
+        settings_window.geometry("275x260")  # Adjusted initial size for a closer fit
 
         def choose_color(variable, button):
             color_code = colorchooser.askcolor(title="Choose color")[1]
@@ -498,20 +498,23 @@ class ShyftGUI:
         bg_color_var = tk.StringVar(value=self.bg_color)
         btn_text_color_var = tk.StringVar(value=self.btn_text_color)
 
-        settings_frame = ttk.Frame(settings_window)
-        settings_frame.pack(padx=10, pady=10, anchor="w")
+        settings_frame = ttk.Frame(settings_window, padding=(10, 10))
+        settings_frame.pack(padx=5, pady=5, fill="both", expand=True, anchor="center")
 
-        ttk.Label(settings_frame, text="Timestring Color:").pack(anchor="w")
-        time_color_button = ttk.Button(settings_frame, textvariable=time_color_var, command=lambda: choose_color(time_color_var, time_color_button), highlightthickness=0, bd=0)
+        ttk.Label(settings_frame, text="Timestring Color:").pack(anchor="w", pady=2)
+        time_color_button = ttk.Button(settings_frame, textvariable=time_color_var, command=lambda: choose_color(time_color_var, time_color_button))
         time_color_button.pack(fill="x", pady=2)
 
-        ttk.Label(settings_frame, text="Timestring Background Color:").pack(anchor="w")
-        bg_color_button = ttk.Button(settings_frame, textvariable=bg_color_var, command=lambda: choose_color(bg_color_var, bg_color_button), highlightthickness=0, bd=0)
+        ttk.Label(settings_frame, text="Timestring Background Color:").pack(anchor="w", pady=2)
+        bg_color_button = ttk.Button(settings_frame, textvariable=bg_color_var, command=lambda: choose_color(bg_color_var, bg_color_button))
         bg_color_button.pack(fill="x", pady=2)
 
-        ttk.Label(settings_frame, text="Button Text Color:").pack(anchor="w")
-        btn_text_color_button = ttk.Button(settings_frame, textvariable=btn_text_color_var, command=lambda: choose_color(btn_text_color_var, btn_text_color_button), highlightthickness=0, bd=0)
+        ttk.Label(settings_frame, text="Button Text Color:").pack(anchor="w", pady=2)
+        btn_text_color_button = ttk.Button(settings_frame, textvariable=btn_text_color_var, command=lambda: choose_color(btn_text_color_var, btn_text_color_button))
         btn_text_color_button.pack(fill="x", pady=2)
+
+        # Add some space between the last color setting and the Save button
+        ttk.Label(settings_frame, text="").pack(pady=5)
 
         def save_settings():
             self.time_color = time_color_var.get()
@@ -521,6 +524,7 @@ class ShyftGUI:
             messagebox.showinfo("Settings Saved", "New settings have been applied.")
 
         ttk.Button(settings_frame, text="Save", command=save_settings).pack(pady=10, fill="x")
+    
 
     def autologger(self):
         model_id_response = simpledialog.askstring("Model ID", "Enter Model ID:", parent=self.master)
