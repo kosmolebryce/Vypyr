@@ -101,16 +101,6 @@ def pwd():
     return os.getcwd()
 
 
-# `dir` and `ls`
-# - These are equivalent; both return the contents of the current working
-#   directory.
-def dir():
-    files = os.listdir()
-    for item in files:
-        print(f"{item}\n", end="", flush=True)
-        wait(0.001)
-
-
 def ls():
     dir()
 
@@ -277,48 +267,7 @@ def o(file):
 
 def up():
     return cd("..")
-
-
-def help():
-    typyr("\nHelp:")
-    typyr("  - `div`")
-    typyr("    * a simple divider")
-    typyr("  - `typyr`")
-    typyr("    * a cuter way to print to stdout")
-    typyr("  - `pwd`")
-    typyr("    * returns current working directory as `str`")
-    typyr("  - `dir` and `ls`")
-    typyr("    * These are equivalent; both return the contents of the current working")
-    typyr("      directory.")
-    typyr("  - `home`")
-    typyr("    * navigate to user's home directory")
-    typyr("      * assumes that user's home directory is set by system's `HOME`")
-    typyr("        shell environment variable")
-    typyr("  - `cd`")
-    typyr("    * navigate to a specific directory")
-    typyr("  - `mkdir`")
-    typyr("    * create a directory")
-    typyr("  - `rmdir`")
-    typyr("    * remove a directory")
-
-    typyr("  - `touch`")
-    typyr("    * create a file")
-    typyr("  - `rm`")
-    typyr("    * remove a file")
-    typyr("  - `mv`")
-    typyr("    * move a file")
-    typyr("  - `cp`")
-    typyr("    * copy a file")
-    typyr("  - `cat`")
-    typyr("    * print a file")
-    typyr("  - `clear`")
-    typyr("    * clear the screen")
-    typyr("  - `exit`")
-    typyr("    * exit the program")
-    typyr("  - `help`")
-    typyr("    * print this help menu")
-    print()
-
+    
 
 def main():
     pass
