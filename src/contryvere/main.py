@@ -16,7 +16,7 @@ class Persona:
     def __init__(self, god, **kwargs):
         self.god = god
         self.date = kwargs.get('date', dt.now().strftime('%A, %B %d %Y %H:%M:%S'))
-        self.name = kwargs.get('name', str()).capitalize()
+        self.name = kwargs.get('name', str()).upper()
         self.age = kwargs.get('age', 0)
         self.race = kwargs.get('race', str()).capitalize()
         self.charclass = kwargs.get('charclass', str()).capitalize()
@@ -74,7 +74,7 @@ class God:
         self.spellbooks = {}
         self.outdir = Path("~/output").expanduser()
         self.ext = ".md"
-        self.outname = Path("output")
+        self.outname = Path("contryvere")
         self.outpath = self.outdir / self.outname.with_suffix(self.ext)
         if not self.outpath.is_file():
             self.outpath.touch()
@@ -83,67 +83,144 @@ class God:
         fp_md = self.outdir / self.outname.with_suffix(".md")
         fp_html = self.outdir / self.outname.with_suffix(".html")
         dateline = dt.now().strftime("Report generated at %H:%M:%S on %B %d, %Y.")
-
+        stylesheet_path = "styles.css"  # Assuming the stylesheet is in the same directory
+    
         # Profiles
         profiles_md = [dateline, "\n\n# `CONTRYVERE`\n\n----\n\n## PROFILES\n\n"]
-        profiles_html = [f"<p>{dateline}</p>", "<h1>CONTRYVERE</h1><hr><h2>PROFILES</h2>"]
-
+        profiles_html = [
+            self.cl.to_html(escape=False, classes='highlight')
+        ]
+    
         cl_df = self.cl
         profiles_md.append(cl_df.to_markdown(tablefmt="grid"))
-        profiles_html.append(cl_df.to_html(escape=False))
-
+    
         # Inventories
         inventories_md = ["\n\n## Inventories\n\n"]
-        inventories_html = ["<h2>Inventories</h2>"]
-
+        inventories_html = ["<h3>Bags</h3><div class='highlight'><p class='paragraph'><strong>The information displayed in the table below is current as of the date and time indicated at the top of this report.</strong></p></div>"]
+    
         inventories = {persona_name: inventory.items for persona_name, inventory in self.inventories.items() if inventory.items}
         if inventories:
             inventories_df = pd.DataFrame.from_dict(inventories, orient='index').transpose()
             inventories_md.append(inventories_df.to_markdown(tablefmt="grid"))
-            inventories_html.append(inventories_df.to_html(escape=False))
-
+            inventories_html.append(inventories_df.to_html(escape=False, classes='highlight'))
+    
         # Spellbooks
         spellbooks_md = ["\n\n## Spellbooks\n\n"]
-        spellbooks_html = ["<h2>Spellbooks</h2>"]
-
+        spellbooks_html = ["<h3>Books</h3><div class='highlight'><p class='paragraph'><strong>The information displayed in the table below is current as of the date and time indicated at the top of this report.</strong></p></div>"]
+    
         spellbooks = {persona_name: spellbook.spells for persona_name, spellbook in self.spellbooks.items() if spellbook.spells}
         if spellbooks:
             spellbooks_df = pd.DataFrame.from_dict(spellbooks, orient='index').transpose()
             spellbooks_md.append(spellbooks_df.to_markdown(tablefmt="grid"))
-            spellbooks_html.append(spellbooks_df.to_html(escape=False))
-
+            spellbooks_html.append(spellbooks_df.to_html(escape=False, classes='highlight'))
+    
         # Combine content for markdown
         content_md = "".join(profiles_md) + "".join(inventories_md) + "".join(spellbooks_md) + "\n\n----\n\nEOF"
+    
         # Combine content for HTML
-        content_html = f"<html><body>{''.join(profiles_html)}<hr>{''.join(inventories_html)}<hr>{''.join(spellbooks_html)}<hr>EOF</body></html>"
-
+        content_html = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Contryvere | Reports</title>
+            <link rel="stylesheet" href="{stylesheet_path}">
+        </head>
+        <body>
+            <div class="container">
+                <h6>{dateline}<h6>
+                <a href="contryvere.html" style="text-decoration: none">
+                    <div class="popbox">
+                        <h1><span style="font-weight: bolder;">CONTRYVERE</span><br />
+                            Character Reports
+                        </h1>
+                    </div>
+                </a>
+                
+                <button class="toggle-button" onclick="toggleVisibility('profiles', this)">
+                    <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Profiles</span>
+                </button>
+                <div id="profiles" class="toggle-content">
+                    <section>
+                        <div class="table-bg">
+                            {''.join(profiles_html)}
+                        </div>
+                    </section>
+                </div>
+    
+                <button class="toggle-button" onclick="toggleVisibility('inventories', this)">
+                    <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Inventories</span>
+                </button>
+                <div id="inventories" class="toggle-content">
+                    <section>
+                        <div class="table-bg">
+                            {''.join(inventories_html)}
+                        </div>
+                    </section>
+                </div>
+    
+                <button class="toggle-button" onclick="toggleVisibility('spellbooks', this)">
+                    <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Spellbooks</span>
+                </button>
+                <div id="spellbooks" class="toggle-content">
+                    <section>
+                        <div class="table-bg">
+                            {''.join(spellbooks_html)}
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {{
+                    var allContents = document.querySelectorAll('.toggle-content');
+                    allContents.forEach(function(content) {{
+                        content.style.maxHeight = "0px"; // Initializes as collapsed
+                    }});
+                }});
+                function toggleVisibility(id, button) {{
+                    var content = document.getElementById(id);
+                    var icon = button.querySelector('.icon');
+                
+                    if (content.style.maxHeight !== "0px" && content.style.maxHeight !== "") {{
+                        content.style.maxHeight = "0px";
+                        icon.textContent = '+ \u00A0';
+                    }} else {{
+                        // Dynamically adjust max-height to the scrollHeight of the content
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.textContent = '- \u00A0';
+                    }}
+                }}
+            </script>
+        </body>
+        </html>
+        """
+    
         # Write markdown file
         with open(fp_md, "w") as f_md:
             f_md.write(content_md)
-
+    
         # Write HTML file
         with open(fp_html, "w") as f_html:
             f_html.write(content_html)
-
+    
         print("\n")
-        typyr(f"{GOLDENROD}Done.{NORM}")
-        typyr(f"{GOLDENROD}{BOLD}Wrote persona report to `{fp_md}` and `{fp_html}`:{NORM}")
+        typyr(f"{PEACH}Done.{NORM}")
+        typyr(f"{PEACH}{BOLD}Wrote persona report to `{fp_md}` and `{fp_html}`:{NORM}")
         print("\n" * 2)
-
+    
         with open(fp_md, "r") as f_md:
             data_md = f_md.read()
-            print(f"{GOLDENROD}{data_md}{NORM}")
-
+            print(f"{PEACH}{data_md}{NORM}")
+    
         with open(fp_html, "r") as f_html:
             data_html = f_html.read()
-            print(f"{GOLDENROD}{data_html}{NORM}")
-
+            print(f"{PEACH}{data_html}{NORM}")        
+    
     def open_inventory(self, persona):
-        div()
         if persona.name in self.inventories:
             typyr(f"{persona.name}'s inventory is already open.")
         else:
-            typyr(f"Opening {persona.name}'s inventory...")
             self.inventories[persona.name] = Inventory()
             try:
                 with open(f'{VYPYR_DIR}/src/contryvere/characters/{persona.name}.json', 'r') as f:
@@ -152,20 +229,15 @@ class God:
                     if isinstance(inv, dict):
                         for key, value in inv.items():
                             self.inventories[persona.name].items.update({f"{key}": f"{value}"})
-                        typyr(f"Successfully loaded {persona.name}'s inventory from JSON.")
                     else:
                         typyr(f"Invalid inventory format for {persona.name}.")
             except KeyError:
                 typyr(f"God instantiated a new inventory for {persona.name}, who has not yet acquired any items.")
-            finally:
-                typyr(f"{BOLD}{GOLDENROD}{persona.name}'s inventory is now open.{NORM}")
 
     def open_spellbook(self, persona):
-        div()
         if persona.name in self.spellbooks:
             typyr(f"{persona.name}'s spellbook is already open.")
         else:
-            typyr(f"Opening {persona.name}'s spellbook...")
             self.spellbooks[persona.name] = Spellbook()
             try:
                 with open(f'{VYPYR_DIR}/src/contryvere/characters/{persona.name}.json', 'r') as f:
@@ -174,13 +246,10 @@ class God:
                     if isinstance(spells, dict):
                         for key, value in spells.items():
                             self.spellbooks[persona.name].spells.update({f"{key}": f"{value}"})
-                        typyr(f"Successfully loaded {persona.name}'s spellbook from JSON.")
                     else:
                         typyr(f"Invalid spellbook format for {persona.name}.")
             except KeyError:
                 typyr(f"God instantiated a new spellbook for {persona.name}, who has not yet acquired any spells.")
-            finally:
-                typyr(f"{BOLD}{GOLDENROD}{persona.name}'s spellbook is now open.{NORM}")
 
     def export(self, persona):
         """Export a single persona's data to a JSON file."""
@@ -285,15 +354,14 @@ def initialize():
     dm = God()
     roster = Roster(dm)
     roster.build()
-
-    print(GOLDENROD)
+    print(PEACH, end="", flush=True)
     div()
-
     data_path = VYPYR_DIR / "src/contryvere/characters"
-    typyr(f"{GOLDENROD}Your Contryvere personas have been reconstructed")
-    typyr(f"from the character data files saved in `{data_path}`.\n\n")
-    typyr(f"You can access this data via the {NORM}{BOLD}`dm.cl`{NORM}{GOLDENROD} property.")
-    typyr(f"For additional information, type `help(dm.cl)`.")
+    typyr(f"{PEACH}Your {BOLD}Contryvere{NORM}{PEACH} personas have been")
+    typyr(f"{PEACH}reconstructed from the character data files saved in")
+    typyr(f"{PEACH}`{data_path}`.\n\n")
+    typyr(f"{PEACH}You can access this data via the {NORM}{BOLD}`dm.cl`{NORM}{PEACH} property.")
+    typyr(f"{PEACH}For additional information, type `help(dm.cl)`.")
 
     div()
     print(NORM)
@@ -307,3 +375,9 @@ dm = initialize()
 for persona in dm.personas:
     dm.open_inventory(persona)
     dm.open_spellbook(persona)
+print(PEACH, end="", flush=True)
+typyr(f"{BOLD}Opened {dm.personas.__len__()} personas' {GOLDENROD}inventories{PEACH} and {TEAL}spellbooks.{NORM}{PEACH}✨🎒🪄\n\n")
+typyr(f"Indices:\n")
+for c in range(len(dm.personas)):
+    typyr(f"{[c]}  {dm.personas[c]['name']}")
+

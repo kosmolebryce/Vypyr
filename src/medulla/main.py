@@ -52,6 +52,9 @@ BG_BLUE = "\033[44m"
 BG_MAGENTA = "\033[45m"
 BG_CYAN = "\033[46m"
 BG_WHITE = "\033[47m"
+BG_PEACH = "\033[222m"
+BG_TEAL = "\033[37m"
+BG_GOLDENROD = "\033[220m"
 
 
 # ANSI style escape sequences
