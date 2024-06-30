@@ -72,129 +72,152 @@ class God:
         self.diseases = {}
         self.inventories = {}
         self.spellbooks = {}
-        self.outdir = Path("~/output").expanduser()
+        self.outdir = Path("~/repos/contryvere-site").expanduser()
+        if not self.outdir.exists():
+            self.outdir.mkdir(parents=True, exist_ok=True)
         self.ext = ".md"
-        self.outname = Path("contryvere")
+        self.outname = Path("report")
         self.outpath = self.outdir / self.outname.with_suffix(self.ext)
         if not self.outpath.is_file():
             self.outpath.touch()
-
+            
     def report(self):
         fp_md = self.outdir / self.outname.with_suffix(".md")
         fp_html = self.outdir / self.outname.with_suffix(".html")
         dateline = dt.now().strftime("Report generated at %H:%M:%S on %B %d, %Y.")
-        stylesheet_path = "styles.css"  # Assuming the stylesheet is in the same directory
+        stylesheet_path = "styles.css"
     
         # Profiles
         profiles_md = [dateline, "\n\n# `CONTRYVERE`\n\n----\n\n## PROFILES\n\n"]
-        profiles_html = [
-            self.cl.to_html(escape=False, classes='highlight')
-        ]
-    
+        profiles_html = self.cl.reset_index().to_html(index=False, escape=False, classes='highlight')
+        
         cl_df = self.cl
         profiles_md.append(cl_df.to_markdown(tablefmt="grid"))
     
         # Inventories
         inventories_md = ["\n\n## Inventories\n\n"]
-        inventories_html = ["<h3>Bags</h3><div class='highlight'><p class='paragraph'><strong>The information displayed in the table below is current as of the date and time indicated at the top of this report.</strong></p></div>"]
+        inventories_html = ["<p class='paragraph'>The information displayed below is current as of the date and time indicated at the top of the page.</p>"]
     
-        inventories = {persona_name: inventory.items for persona_name, inventory in self.inventories.items() if inventory.items}
-        if inventories:
-            inventories_df = pd.DataFrame.from_dict(inventories, orient='index').transpose()
-            inventories_md.append(inventories_df.to_markdown(tablefmt="grid"))
-            inventories_html.append(inventories_df.to_html(escape=False, classes='highlight'))
+        for persona in self.personas:
+            persona_inventory = self.inventories.get(persona.name, Inventory()).items
+            inventories_md.append(f"\n\n### {persona.name}\n\n")
+            if persona_inventory:
+                inventory_data = []
+                for item, details in persona_inventory.items():
+                    inventory_data.append({
+                        'Item': item,
+                        'Description': details['description'].replace('\n', '<br>'),
+                        'Quantity': details['quantity']
+                    })
+                df = pd.DataFrame(inventory_data)
+                inventories_md.append(df.to_markdown(tablefmt="grid"))
+                inventories_html.append(f"<h4>{persona.name}</h4>")
+                inventories_html.append(df.to_html(index=False, escape=False, classes='highlight'))
+            else:
+                inventories_md.append(f"{persona.name}'s inventory is empty")
+                inventories_html.append(f"<h4>{persona.name}</h4><p>{persona.name}'s inventory is empty</p>")
     
         # Spellbooks
         spellbooks_md = ["\n\n## Spellbooks\n\n"]
-        spellbooks_html = ["<h3>Books</h3><div class='highlight'><p class='paragraph'><strong>The information displayed in the table below is current as of the date and time indicated at the top of this report.</strong></p></div>"]
+        spellbooks_html = ["<p class='paragraph'>The information displayed below is current as of the date and time indicated at the top of the page.</p>"]
     
-        spellbooks = {persona_name: spellbook.spells for persona_name, spellbook in self.spellbooks.items() if spellbook.spells}
-        if spellbooks:
-            spellbooks_df = pd.DataFrame.from_dict(spellbooks, orient='index').transpose()
-            spellbooks_md.append(spellbooks_df.to_markdown(tablefmt="grid"))
-            spellbooks_html.append(spellbooks_df.to_html(escape=False, classes='highlight'))
+        for persona in self.personas:
+            persona_spellbook = self.spellbooks.get(persona.name, Spellbook()).spells
+            spellbooks_md.append(f"\n\n### {persona.name}\n\n")
+            if persona_spellbook:
+                spellbook_data = [{'Spell': spell, 'Description': description.replace('\n', '<br>')} 
+                                  for spell, description in persona_spellbook.items()]
+                df = pd.DataFrame(spellbook_data)
+                spellbooks_md.append(df.to_markdown(tablefmt="grid"))
+                spellbooks_html.append(f"<h4>{persona.name}</h4>")
+                spellbooks_html.append(df.to_html(index=False, escape=False, classes='highlight'))
+            else:
+                spellbooks_md.append(f"{persona.name}'s spellbook is empty")
+                spellbooks_html.append(f"<h4>{persona.name}</h4><p>{persona.name}'s spellbook is empty</p>")
     
         # Combine content for markdown
         content_md = "".join(profiles_md) + "".join(inventories_md) + "".join(spellbooks_md) + "\n\n----\n\nEOF"
     
         # Combine content for HTML
-        content_html = f"""
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Contryvere | Reports</title>
-            <link rel="stylesheet" href="{stylesheet_path}">
-        </head>
-        <body>
-            <div class="container">
-                <h6>{dateline}<h6>
-                <a href="contryvere.html" style="text-decoration: none">
-                    <div class="popbox">
-                        <h1><span style="font-weight: bolder;">CONTRYVERE</span><br />
-                            Character Reports
-                        </h1>
-                    </div>
-                </a>
-                
-                <button class="toggle-button" onclick="toggleVisibility('profiles', this)">
-                    <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Profiles</span>
-                </button>
-                <div id="profiles" class="toggle-content">
-                    <section>
-                        <div class="table-bg">
-                            {''.join(profiles_html)}
-                        </div>
-                    </section>
-                </div>
-    
-                <button class="toggle-button" onclick="toggleVisibility('inventories', this)">
-                    <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Inventories</span>
-                </button>
-                <div id="inventories" class="toggle-content">
-                    <section>
-                        <div class="table-bg">
-                            {''.join(inventories_html)}
-                        </div>
-                    </section>
-                </div>
-    
-                <button class="toggle-button" onclick="toggleVisibility('spellbooks', this)">
-                    <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Spellbooks</span>
-                </button>
-                <div id="spellbooks" class="toggle-content">
-                    <section>
-                        <div class="table-bg">
-                            {''.join(spellbooks_html)}
-                        </div>
-                    </section>
-                </div>
+        content_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contryvere | Reports</title>
+    <link rel="stylesheet" href="{stylesheet_path}">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+</head>
+<body>
+    <div class="container">
+        <h6>{dateline}</h6>
+        <a href="index.html" style="text-decoration: none">
+            <div class="popbox">
+                <h1><span style="font-weight: bolder;">CONTRYVERE</span><br />
+                    Character Reports
+                </h1>
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {{
-                    var allContents = document.querySelectorAll('.toggle-content');
-                    allContents.forEach(function(content) {{
-                        content.style.maxHeight = "0px"; // Initializes as collapsed
-                    }});
-                }});
-                function toggleVisibility(id, button) {{
-                    var content = document.getElementById(id);
-                    var icon = button.querySelector('.icon');
-                
-                    if (content.style.maxHeight !== "0px" && content.style.maxHeight !== "") {{
-                        content.style.maxHeight = "0px";
-                        icon.textContent = '+ \u00A0';
-                    }} else {{
-                        // Dynamically adjust max-height to the scrollHeight of the content
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        icon.textContent = '- \u00A0';
-                    }}
-                }}
-            </script>
-        </body>
-        </html>
-        """
+        </a>
+        
+        <button class="toggle-button" onclick="toggleVisibility('profiles', this)">
+            <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Profiles</span>
+        </button>
+        <div id="profiles" class="toggle-content">
+            <section>
+                <h3>Roster</h3>
+                <div class="table-bg">
+                    {profiles_html}
+                </div>
+            </section>
+        </div>
+
+        <button class="toggle-button" onclick="toggleVisibility('inventories', this)">
+            <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Inventories</span>
+        </button>
+        <div id="inventories" class="toggle-content">
+            <section>
+                <h3>Inventory Details by Character</h3>
+                <div class="table-bg">
+                    {''.join(inventories_html)}
+                </div>
+            </section>
+        </div>
+
+        <button class="toggle-button" onclick="toggleVisibility('spellbooks', this)">
+            <span class="icon">+ &nbsp;</span><span style='font-family: "Monaspace Krypton", "Menlo", "Courier New", Courier, monospace;'>Spellbooks</span>
+        </button>
+        <div id="spellbooks" class="toggle-content">
+            <section>
+                <h3>Spellbook Lists by Character</h3>
+                <div class="table-bg">
+                    {''.join(spellbooks_html)}
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {{
+            var allContents = document.querySelectorAll('.toggle-content');
+            allContents.forEach(function(content) {{
+                content.style.maxHeight = "0px"; // Initializes as collapsed
+            }});
+        }});
+        function toggleVisibility(id, button) {{
+            var content = document.getElementById(id);
+            var icon = button.querySelector('.icon');
+        
+            if (content.style.maxHeight !== "0px" && content.style.maxHeight !== "") {{
+                content.style.maxHeight = "0px";
+                icon.textContent = '+ \\u00A0';
+            }} else {{
+                // Dynamically adjust max-height to the scrollHeight of the content
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.textContent = '- \\u00A0';
+            }}
+        }}
+    </script>
+</body>
+</html>"""
     
         # Write markdown file
         with open(fp_md, "w") as f_md:
@@ -215,7 +238,7 @@ class God:
     
         with open(fp_html, "r") as f_html:
             data_html = f_html.read()
-            print(f"{PEACH}{data_html}{NORM}")        
+            print(f"{PEACH}{data_html}{NORM}")    
     
     def open_inventory(self, persona):
         if persona.name in self.inventories:
@@ -228,7 +251,7 @@ class God:
                     inv = data.get('inventory', {})
                     if isinstance(inv, dict):
                         for key, value in inv.items():
-                            self.inventories[persona.name].items.update({f"{key}": f"{value}"})
+                            self.inventories[persona.name].items.update({f"{key}": {"description": value['description'], "quantity": value['quantity']}})
                     else:
                         typyr(f"Invalid inventory format for {persona.name}.")
             except KeyError:
@@ -245,7 +268,7 @@ class God:
                     spells = data.get('spellbook', {})
                     if isinstance(spells, dict):
                         for key, value in spells.items():
-                            self.spellbooks[persona.name].spells.update({f"{key}": f"{value}"})
+                            self.spellbooks[persona.name].spells.update({f"{key}": value})
                     else:
                         typyr(f"Invalid spellbook format for {persona.name}.")
             except KeyError:
@@ -342,6 +365,92 @@ class God:
     def register(self, persona):
         self.personas.append(persona)
 
+    def add_item(self, persona_name, item, description, quantity=1):
+        if isinstance(persona_name, Persona):
+            persona_name = persona_name.name
+        if persona_name in self.inventories:
+            cleaned_description = "\n".join(line.strip() for line in description.strip().split("\n"))
+            if item in self.inventories[persona_name].items:
+                self.inventories[persona_name].items[item]['quantity'] += quantity
+                self.inventories[persona_name].items[item]['description'] = cleaned_description
+            else:
+                self.inventories[persona_name].items[item] = {'description': cleaned_description, 'quantity': quantity}
+            typyr(f"Added {quantity} x {item} to {persona_name}'s inventory.")
+        else:
+            typyr(f"No inventory found for {persona_name}.")
+
+    def remove_item(self, persona_name, item, quantity=1):
+        if isinstance(persona_name, Persona):
+            persona_name = persona_name.name
+        if persona_name in self.inventories:
+            if item in self.inventories[persona_name].items:
+                if self.inventories[persona_name].items[item]['quantity'] > quantity:
+                    self.inventories[persona_name].items[item]['quantity'] -= quantity
+                    typyr(f"Removed {quantity} x {item} from {persona_name}'s inventory.")
+                elif self.inventories[persona_name].items[item]['quantity'] == quantity:
+                    del self.inventories[persona_name].items[item]
+                    typyr(f"Removed {item} from {persona_name}'s inventory.")
+                else:
+                    typyr(f"Cannot remove {quantity} x {item}; only {self.inventories[persona_name].items[item]['quantity']} in inventory.")
+            else:
+                typyr(f"{item} not found in {persona_name}'s inventory.")
+        else:
+            typyr(f"No inventory found for {persona_name}.")
+
+    def add_spell(self, persona_name, spell, description):
+        if isinstance(persona_name, Persona):
+            persona_name = persona_name.name
+        if persona_name in self.spellbooks:
+            if spell not in self.spellbooks[persona_name].spells:
+                cleaned_description = "\n".join(line.strip() for line in description.strip().split("\n"))
+                self.spellbooks[persona_name].spells[spell] = cleaned_description
+                typyr(f"Added {spell} to {persona_name}'s spellbook.")
+            else:
+                typyr(f"{spell} already in {persona_name}'s spellbook.")
+        else:
+            typyr(f"No spellbook found for {persona_name}.")
+
+    def remove_spell(self, persona_name, spell):
+        if isinstance(persona_name, Persona):
+            persona_name = persona_name.name
+        if persona_name in self.spellbooks:
+            if spell in self.spellbooks[persona_name].spells:
+                del self.spellbooks[persona_name].spells[spell]
+                typyr(f"Removed {spell} from {persona_name}'s spellbook.")
+            else:
+                typyr(f"{spell} not found in {persona_name}'s spellbook.")
+        else:
+            typyr(f"No spellbook found for {persona_name}.")
+
+    def list_inventory(self, persona_name):
+        if isinstance(persona_name, Persona):
+            persona_name = persona_name.name
+        if persona_name in self.inventories:
+            print(f"{GOLDENROD}{BOLD}[{persona_name}'S INVENTORY]{NORM}")
+            for item, details in self.inventories[persona_name].items.items():
+                print(f"{TEAL}Item: {item}{NORM}")
+                print(f"> {PEACH}Description:{NORM}")
+                for line in details['description'].split('\n'):
+                    print(f"  {PEACH}{line}{NORM}")
+                print(f"> {PEACH}Quantity: {details['quantity']}{NORM}\n")
+        else:
+            typyr(f"No inventory found for {persona_name}.")
+
+    def list_spellbook(self, persona_name):
+        if isinstance(persona_name, Persona):
+            persona_name = persona_name.name
+        if persona_name in self.spellbooks:
+            typyr(f"{TEAL}{BOLD}[{persona.name}'S SPELLBOOK]{NORM}")
+            for spell, description in self.spellbooks[persona_name].spells.items():
+                print(f"{TEAL}Spell: {spell}{NORM}")
+                print(f"> {PEACH}Description:{NORM}")
+                for line in description.split("\n"):
+                    print(f"  {PEACH}{line}{NORM}")
+                print()
+        else:
+            typyr(f"No spellbook found for {persona_name}.")
+
+
 class Inventory:
     def __init__(self):
         self.items = {}
@@ -380,4 +489,3 @@ typyr(f"{BOLD}Opened {dm.personas.__len__()} personas' {GOLDENROD}inventories{PE
 typyr(f"Indices:\n")
 for c in range(len(dm.personas)):
     typyr(f"{[c]}  {dm.personas[c]['name']}")
-
