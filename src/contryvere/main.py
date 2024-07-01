@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import re
 from contextlib import suppress
 from datetime import datetime as dt
 from pathlib import Path
@@ -10,7 +11,121 @@ import vypyr
 from vypyr.src.medulla.main import *
 from vypyr.src.medulla.main import div
 
+# ENVIRONMENT
 VYPYR_DIR = Path(os.getenv("VYPYR_DIR"))
+
+# UTILITIES
+def get_spellbook_from_json() -> dict:
+    p = VYPYR_DIR / "src/contryvere/spells.json"
+    with open(p, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return data
+
+def get_items_from_json() -> dict:
+    p = VYPYR_DIR / "src/contryvere/items.json"
+    with open(p, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return data
+
+def spelld(spell: str) -> str:
+    i = spell_indices[spell]
+    name = SPELLBOOK[i].get("Name")
+    lvl = SPELLBOOK[i].get("Level")
+    time = SPELLBOOK[i].get("Casting Time")
+    dur = SPELLBOOK[i].get("Duration")
+    rng = SPELLBOOK[i].get("Range")
+    desc = SPELLBOOK[i].get("Text")
+    higher_lvl = SPELLBOOK[i].get("At Higher Levels")
+
+    d = f"""
+Name: {name}
+Level: {lvl}
+Casting Time: {time}
+Duration: {dur}
+Range: {rng}
+
+--
+
+{desc}
+
+--
+
+At Higher Levels: {higher_lvl}
+"""
+    return d
+
+def itemd(item: str) -> str:
+    i = item_indices[item]
+    name = ITEMSLIST[i].get("Name")
+    typ = ITEMSLIST[i].get("Type")
+    rarity = ITEMSLIST[i].get("Rarity")
+    attunement = ITEMSLIST[i].get("Attunement")
+    props = ITEMSLIST[i].get("Properties")
+    desc = ITEMSLIST[i].get("Text")
+    weight = ITEMSLIST[i].get("Weight")
+    val = ITEMSLIST[i].get("Value")
+
+    d = f"""
+Name: {name}
+Type: {typ}
+Rarity: {rarity}
+Attunement: {attunement}
+Properties: {props}
+Weight: {weight}
+Value: {val}
+
+--
+
+{desc}
+"""
+    return d
+
+
+"""
+Loading databases
+"""
+# Loading spellbook database
+try:
+    SPELLBOOK = get_spellbook_from_json()
+    print(f"{PEACH}", end="")
+    div()
+    typyr("Successfully loaded spellbook database from `spells.json`.")
+    spell_indices = {}
+    for index, spell in enumerate(SPELLBOOK):
+        spell_indices[spell['Name']] = index
+
+except FileNotFoundError:
+    print(f"{PEACH}", end="")
+    div()
+    typyr(f"""
+{GOLDENROD}{BOLD}Contryvere{NORM}{TEAL} could not find `spells.json` 
+in the current working directory.
+""")
+    pass
+except Exception as e:
+    raise e
+
+# Loading items list database
+try:
+    ITEMSLIST = get_items_from_json()
+    print(f"{PEACH}", end="")
+    div()
+    typyr("Successfully loaded items list database from `items.json`.")
+    item_indices = {}
+    for index, item in enumerate(ITEMSLIST):
+        item_indices[item['Name']] = index
+except FileNotFoundError:
+    print(f"{PEACH}", end="")
+    div()
+    typyr(f"""
+{GOLDENROD}{BOLD}Contryvere{NORM}{TEAL} could not find `items.json` 
+in the current working directory.
+""")
+    pass
+except Exception as e:
+    raise e
+
+
 
 class Persona:
     def __init__(self, god, **kwargs):
@@ -145,8 +260,16 @@ class God:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contryvere | Reports</title>
-    <link rel="stylesheet" href="{stylesheet_path}">
-    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Standard favicon -->
+    <link rel="icon" href="favicon.png">
+    <!-- Apple Touch Icon (recommended size) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="iOS/contryvere.appiconset/contryvere-60@3x.png">
+    <!-- Additional Sizes -->
+    <link rel="apple-touch-icon" sizes="120x120" href="iOS/contryvere.appiconset/contryvere-60@2x.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="iOS/contryvere.appiconset/contryvere-76@2x.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="iOS/contryvere.appiconset/contryvere-83.5@2x.png">
 </head>
 <body>
     <div class="container">
@@ -440,7 +563,7 @@ class God:
         if isinstance(persona_name, Persona):
             persona_name = persona_name.name
         if persona_name in self.spellbooks:
-            typyr(f"{TEAL}{BOLD}[{persona.name}'S SPELLBOOK]{NORM}")
+            typyr(f"{TEAL}{BOLD}[{persona_name}'S SPELLBOOK]{NORM}")
             for spell, description in self.spellbooks[persona_name].spells.items():
                 print(f"{TEAL}Spell: {spell}{NORM}")
                 print(f"> {PEACH}Description:{NORM}")
